@@ -4,9 +4,8 @@ public class Courses {
 	private int course_id; 
 	private String coursename;
 	private int duration;
-	private String instructor;
 	private int numberofStudents;
-	
+	private Trainer trainerinfo;
 	
 	//getters and setters
 	public int getCourse_id() {
@@ -27,12 +26,7 @@ public class Courses {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
-	public String getInstructor() {
-		return instructor;
-	}
-	public void setInstructor(String instructor) {
-		this.instructor = instructor;
-	}
+
 	public int getNumberofStudents() {
 		return numberofStudents;
 	}
@@ -40,19 +34,22 @@ public class Courses {
 		this.numberofStudents = numberofStudents;
 	}
 	
+	public Trainer getTrainerinfo() {
+		return trainerinfo;
+	}
+	public void setTrainerinfo(Trainer trainerinfo) {
+		this.trainerinfo = trainerinfo;
+	}
 	//constructors
 	public Courses(int course_id) {
 		super();
 		this.course_id = course_id;
 	}
-	public Courses(String instructor) {
+
+	public Courses(int course_id, Trainer trainerinfo) {
 		super();
-		this.instructor = instructor;
-	}
-	public Courses(String coursename, String instructor) {
-		super();
-		this.coursename = coursename;
-		this.instructor = instructor;
+		this.course_id = course_id;
+		this.trainerinfo = trainerinfo;
 	}
 	public Courses() {
 		super();

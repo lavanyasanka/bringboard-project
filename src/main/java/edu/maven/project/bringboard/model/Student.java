@@ -1,5 +1,6 @@
 package edu.maven.project.bringboard.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class Student {

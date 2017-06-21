@@ -1,67 +1,45 @@
 package edu.maven.project.bringboard.daoimpl;
 
-
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
+
+import edu.maven.project.bringboard.dao.CoursesDao;
+import edu.maven.project.bringboard.model.Courses;
 import edu.maven.project.bringboard.util.HibernateSessionFactory;
-import edu.maven.project.bringboard.dao.StudentDao;
-import edu.maven.project.bringboard.model.Student;
 
-
-public class StudentDaoimpl implements StudentDao{
+public class CoursesDaoimpl implements CoursesDao {
 
 	@Override
-	public List<Student> getAllStudents() throws Exception {
+	public List<Courses> getAllCourses() throws Exception {
 		Session session = null;
 		session = HibernateSessionFactory.createSessionFactory().openSession();
 		Transaction tx = null;
-		List<Student> Student = null;
+		List<Courses> courses = null;
 		try{
 			tx = session.beginTransaction();
-			Student = session.createCriteria(Student.class).list();
-			Student.forEach(students -> System.out.println(students));
+			courses = session.createCriteria(Courses.class).list(); 
+			courses.forEach(course -> System.out.println(course));
 			tx.commit();
 			session.close();
 		}catch (Exception ex){
 			ex.printStackTrace();
 		}
 
-		return Student;
+		return courses;
 	}
 
 	@Override
-	public Student getStudentinfo(int student_id) throws Exception {
-		Session session = null;
-		session = HibernateSessionFactory.createSessionFactory().openSession();
-		Transaction tx = null;
-		Student student = null;
-		try{
-			tx = session.beginTransaction();
-			Criteria cr =session.createCriteria(Student.class);
-			student = (Student) cr.add(Restrictions.eq("student_id", student_id));
-			tx.commit();
-			session.close();
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-
-		return student;
-	}
-
-	@Override
-	public void updateStudent(Student Studentidentifier) throws Exception{
+	public Courses getcourseinfo(int course_id) throws  Exception {
 		Session session = null;
 		session = HibernateSessionFactory.createSessionFactory().openSession();
 		Transaction tx = null;
 		try{
 			tx = session.beginTransaction();
-			session.update(Studentidentifier);
+			Courses course = (Courses)session.load(Courses.class, course_id);
 			tx.commit();
 			session.close();
 
@@ -69,20 +47,55 @@ public class StudentDaoimpl implements StudentDao{
 			ex.printStackTrace();
 		}
 
+		return null;
 	}
 
 	@Override
-	public void deleteStudent(int Student_id) throws HibernateException, Exception {
+	public String getinstructorinfo(int course_id) throws  Exception {
 		Session session = null;
 		session = HibernateSessionFactory.createSessionFactory().openSession();
 		Transaction tx = null;
 		try{
 			tx = session.beginTransaction();
-			Student student = (Student)session.get(Student.class, Student_id);
-			session.delete(student); 
+			Courses course = (Courses)session.load(Courses.class, new Integer(course_id));
+			System.out.println("instructor name:"+course.getTrainerinfo());
 			tx.commit();
 			session.close();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 
+		return null;
+
+	}
+
+	@Override
+	public void updateCourse(Courses courseidentifier) throws HibernateException, Exception {
+		Session session = null;
+		session = HibernateSessionFactory.createSessionFactory().openSession();
+		Transaction tx = null;
+		try{
+			tx = session.beginTransaction();
+			session.update(courseidentifier);
+			tx.commit();
+			session.close();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void deleteCourse(int course_id) throws  Exception {
+		Session session = null;
+		session = HibernateSessionFactory.createSessionFactory().openSession();
+		Transaction tx = null;
+		try{
+			tx = session.beginTransaction();
+			Courses course = (Courses)session.get(Courses.class, course_id);
+			session.delete(course); 
+			tx.commit();
+			session.close();
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -91,20 +104,18 @@ public class StudentDaoimpl implements StudentDao{
 	}
 
 	@Override
-	public void insertStudent(Student Studentidentifier) throws HibernateException, Exception {
+	public void insertCourse(Courses courseidentifier) throws Exception {
 		Session session = null;
 		session = HibernateSessionFactory.createSessionFactory().openSession();
 		Transaction tx = null;
 		try{
 			tx = session.beginTransaction();
-			session.save(Studentidentifier); 
+			session.save(courseidentifier); 
 			tx.commit();
 			session.close();
-
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
-
 
 	}
 
